@@ -36,6 +36,7 @@ describe('backend-top-secret routes', () => {
   });
 
   it('Should `sign up` a user and enter their data into user table', async () => {
+    const res = await require(app).post('/api/v1/users').send(testUser);
     const expected = {
       id: expect.any(String),
       first_name: 'First',
@@ -43,5 +44,6 @@ describe('backend-top-secret routes', () => {
       email: 'me@mine.com',
       user_id: expect.any(String),
     };
+    expect(res.body).toEqual(expected);
   });
 });
