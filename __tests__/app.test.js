@@ -3,6 +3,8 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 
+const UserServices = require('../lib/services/UserServices');
+
 const testUser = {
   first_name: 'First',
   last_name: 'Last',
@@ -15,7 +17,7 @@ const createNewUser = async (userData = {}) => {
 
   const agent = request.agent(app);
 
-  const user = await UserService.create({
+  const user = await UserServices.create({
     ...testUser,
     ...userData,
   });
@@ -36,7 +38,7 @@ describe('backend-top-secret routes', () => {
   });
 
   it('Should `sign up` a user and enter their data into user table', async () => {
-    const res = await require(app).post('/api/v1/users').send(testUser);
+    const res = await request(app).post('/api/v1/users').send(testUser);
     const expected = {
       id: expect.any(String),
       first_name: 'First',

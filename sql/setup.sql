@@ -5,10 +5,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE secrets (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    created_at TIMESTAMP DEAFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     title TEXT NOT NULL,
-    description TEXT NOT NULL,
-)
+    description TEXT NOT NULL
+);
 
 CREATE TABLE users (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -17,4 +17,4 @@ CREATE TABLE users (
     email TEXT NOT NULL,
     password TEXT NOT NULL,
     user_id uuid DEFAULT uuid_generate_v4 ()
-)
+);
