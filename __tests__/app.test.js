@@ -56,14 +56,11 @@ describe('backend-top-secret routes', () => {
       ...testUser,
     });
 
-    const { email, password } = user;
+    const { email } = user;
+    const password = testUser.password;
 
     const expected = {
-      id: expect.any(String),
-      first_name: 'First',
-      last_name: 'Last',
-      email: 'me@mine.com',
-      user_id: expect.any(String),
+      message: 'Successfully signed in!',
     };
 
     const res = await agent
