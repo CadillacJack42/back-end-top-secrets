@@ -48,4 +48,29 @@ describe('backend-top-secret routes', () => {
     };
     expect(res.body).toEqual(expected);
   });
+
+  it('Should `sign in` a user', async () => {
+    const agent = request.agent(app);
+
+    const user = await UserServices.create({
+      ...testUser,
+    });
+
+    const { email, password } = user;
+
+    const expected = {
+      id: expect.any(String),
+      first_name: 'First',
+      last_name: 'Last',
+      email: 'me@mine.com',
+      user_id: expect.any(String),
+    };
+
+    const res = await agent
+      .post('/api/v1/users/sessions')
+      .send({ email, password });
+
+    expect(res.body).toEqual(expected);
+    expect(res.status).toEqual(200);
+  });
 });
