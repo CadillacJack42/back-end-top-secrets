@@ -89,6 +89,21 @@ describe('backend-top-secret routes', () => {
     });
   });
 
+  it('Should allow authenticated user to create post', async () => {
+    const [agent, user] = await createNewUser();
+    const res = await request(app)
+      .post('/api/v1/secrets')
+      .send({ title: 'Secret Post', description: 'This is a secret' });
+
+    const expected = {
+      id: expect.any(String),
+      created_at: expect.any(Date),
+      title: 'Secret Post',
+      description: 'This is a secret',
+    };
+    expect(res.body).toEqual(expected);
+  });
+
   it('Should return list of secrets if user signed in', async () => {
     const [agent, user] = await createNewUser();
     console.log('AGENT : ', agent);
