@@ -4,6 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 
 const UserServices = require('../lib/services/UserServices');
+const { agent } = require('supertest');
 
 const testUser = {
   first_name: 'First',
@@ -86,5 +87,14 @@ describe('backend-top-secret routes', () => {
       message: 'You must be signed in to view this page',
       status: 401,
     });
+  });
+
+  it('Should return list of secrets if user signed in', async () => {
+    const [agent, user] = await createNewUser();
+    console.log('AGENT : ', agent);
+    console.log('USER : ', user);
+    const res = await agent.get('/api/v1/secrets');
+
+    expect(res.body).toEqual('something');
   });
 });
