@@ -18,3 +18,5 @@ CREATE TABLE users (
     password TEXT NOT NULL,
     user_id uuid DEFAULT uuid_generate_v4 ()
 );
+
+INSERT INTO secrets (title, description) VALUES ('This is a title', 'This is a description');

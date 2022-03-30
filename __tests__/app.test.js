@@ -73,7 +73,8 @@ describe('backend-top-secret routes', () => {
   });
 
   it('Should `sign out` a user', async () => {
-    const res = await request(app).delete('/api/v1/users/sessions');
+    const [agent, user] = await createNewUser();
+    const res = await agent.delete('/api/v1/users/sessions');
     expect(res.body).toEqual({
       success: true,
       message: 'Successfully signed out!',
@@ -91,13 +92,13 @@ describe('backend-top-secret routes', () => {
 
   it('Should allow authenticated user to create post', async () => {
     const [agent, user] = await createNewUser();
-    const res = await request(app)
+    const res = await agent
       .post('/api/v1/secrets')
       .send({ title: 'Secret Post', description: 'This is a secret' });
 
     const expected = {
       id: expect.any(String),
-      created_at: expect.any(Date),
+      created_at: expect.any(String),
       title: 'Secret Post',
       description: 'This is a secret',
     };
@@ -106,10 +107,15 @@ describe('backend-top-secret routes', () => {
 
   it('Should return list of secrets if user signed in', async () => {
     const [agent, user] = await createNewUser();
-    console.log('AGENT : ', agent);
-    console.log('USER : ', user);
     const res = await agent.get('/api/v1/secrets');
 
-    expect(res.body).toEqual('something');
+    expect(res.body).toEqual([
+      {
+        id: expect.any(String),
+        created_at: expect.any(String),
+        title: 'This is a title',
+        description: 'This is a description',
+      },
+    ]);
   });
 });
