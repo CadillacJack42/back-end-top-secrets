@@ -83,7 +83,7 @@ describe('backend-top-secret routes', () => {
   it('Should return a 401 when unauthenticated trys to view top secrets', async () => {
     const res = await request(app).get('/api/v1/secrets');
     expect(res.body).toEqual({
-      message: 'You must be signed to view this page',
+      message: 'You must be signed in to view this page',
       status: 401,
     });
   });
