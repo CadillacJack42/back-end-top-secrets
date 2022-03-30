@@ -70,4 +70,21 @@ describe('backend-top-secret routes', () => {
     expect(res.body).toEqual(expected);
     expect(res.status).toEqual(200);
   });
+
+  it('Should `sign out` a user', async () => {
+    const res = await request(app).delete('/api/v1/users/sessions');
+    expect(res.body).toEqual({
+      success: true,
+      message: 'Successfully signed out!',
+    });
+    expect(res.status).toEqual(200);
+  });
+
+  it('Should return a 401 when unauthenticated trys to view top secrets', async () => {
+    const res = await request(app).get('/api/v1/secrets');
+    expect(res.body).toEqual({
+      message: 'You must be signed to view this page',
+      status: 401,
+    });
+  });
 });
